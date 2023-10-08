@@ -1,3 +1,4 @@
+import 'package:dreamtier/pages/home_screen.dart';
 import 'package:dreamtier/pages/signup_page/signup_screen.dart';
 import 'package:dreamtier/providers/auth_provider.dart';
 import 'package:flutter/gestures.dart';
@@ -109,12 +110,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               const Color.fromARGB(255, 24, 54, 221)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await ref
-                              .read(authProvider.notifier)
-                              .signInWithEmailAndPassword(
-                                _emailController.text,
-                                _passwordController.text,
-                              );
+                          // await ref
+                          //     .read(authProvider.notifier)
+                          //     .signInWithEmailAndPassword(
+                          //       _emailController.text,
+                          //       _passwordController.text,
+                          //     );
+                          MaterialPageRoute(
+                            builder: (ctx) => const HomeScreen(),
+                          );
                         }
                       },
                       child: const Text(
@@ -126,7 +130,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ],
               ),
-              // Expanded(child: Container()),
               const SizedBox(
                 height: 20,
               ),

@@ -1,4 +1,4 @@
-import 'package:dreamtier/pages/login/signup_screen.dart';
+import 'package:dreamtier/pages/signup_page/signup_screen.dart';
 import 'package:dreamtier/providers/auth_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +18,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(13),
-        margin: const EdgeInsets.symmetric(vertical: 15),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(13),
+          margin: const EdgeInsets.symmetric(vertical: 15),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
                 mainAxisSize: MainAxisSize.max,
@@ -124,7 +126,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ],
               ),
-              Expanded(child: Container()),
+              // Expanded(child: Container()),
+              const SizedBox(
+                height: 20,
+              ),
               RichText(
                 text: TextSpan(
                   text: 'New to our platform',
@@ -145,7 +150,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ..onTap = () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (ctx) => SignUpScreen(),
+                              builder: (ctx) => const SignUpScreen(),
                             ),
                           );
                         },

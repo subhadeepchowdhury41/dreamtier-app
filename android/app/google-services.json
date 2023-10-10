@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345858558847",
+    "project_id": "dreamtier-app",
+    "storage_bucket": "dreamtier-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345858558847:android:5b9b754c0d45e26e7ea84a",
+        "android_client_info": {
+          "package_name": "com.dreamtier.dreamtier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeWJ-PPKaWaOpMhD4yCi6G3WAYlrreK54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

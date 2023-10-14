@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dreamtier/models/auth_user_model.dart';
 import 'package:dreamtier/services/user_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,10 +27,32 @@ class AuthNotifier extends StateNotifier<AuthUser?> {
     return status;
   }
 
+  Future<void> signUpWithDetails(
+      String email, String password, String phone, String name) async {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((creds) async {
+      await UserServices.createUser(creds.user!.uid, email, phone, name)
+          .then((user) {
+        if (user == null) return;
+        state = AuthUser.fromJson(user);
+      });
+    });
+  }
+
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await _auth
         .signInWithEmailAndPassword(email: email, password: password)
-        .then((res) {});
+        .then((res) {
+      log(res.toString());
+    });
+  }
+
+  Future<void> restoreUser(String userId) async {
+    await UserServices.fetchUserInfo(userId).then((user) {
+      if (user == null) return;
+      state = AuthUser.fromJson(user);
+    });
   }
 
   void logout() async {

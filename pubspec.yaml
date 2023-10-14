@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore: ^4.9.3
   flutter_any_logo: ^1.1.0
   carousel_slider: ^4.2.1
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,7 @@ flutter:
   assets:
     - assets/images/
     - assets/light_bg_title.png
+    - assets/headfinal.png
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

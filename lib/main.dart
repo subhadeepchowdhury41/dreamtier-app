@@ -1,9 +1,12 @@
-import 'package:dreamtier/pages/home_screen.dart';
-import 'package:dreamtier/pages/login/login_screen.dart';
+import 'package:dreamtier/firebase_options.dart';
+import 'package:dreamtier/pages/home/profile/interests_selector.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const InterestsSelector(),
       // home: HomeScreen(),
     );
   }

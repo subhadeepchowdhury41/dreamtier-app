@@ -1,6 +1,7 @@
-import 'package:dreamtier/pages/home_screen.dart';
-import 'package:dreamtier/pages/signup_page/signup_screen.dart';
+import 'package:dreamtier/pages/home/home_screen.dart';
+import 'package:dreamtier/pages/signup/signup_screen.dart';
 import 'package:dreamtier/providers/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -110,15 +111,27 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               const Color.fromARGB(255, 24, 54, 221)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          // await ref
-                          //     .read(authProvider.notifier)
-                          //     .signInWithEmailAndPassword(
-                          //       _emailController.text,
-                          //       _passwordController.text,
-                          //     );
-                          MaterialPageRoute(
-                            builder: (ctx) => const HomeScreen(),
-                          );
+                          await ref
+                              .read(authProvider.notifier)
+                              .signInWithEmailAndPassword(
+                                _emailController.text,
+                                _passwordController.text,
+                              )
+                              .then((value) {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (ctx) => const HomeScreen(),
+                              ),
+                            );
+                          }).catchError((e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text((e as FirebaseAuthException)
+                                    .code
+                                    .toString()),
+                              ),
+                            );
+                          });
                         }
                       },
                       child: const Text(

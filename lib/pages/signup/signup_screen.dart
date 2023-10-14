@@ -1,6 +1,7 @@
-import 'package:dreamtier/pages/home_screen.dart';
+import 'package:dreamtier/pages/home/home_screen.dart';
 import 'package:dreamtier/pages/login/login_screen.dart';
 import 'package:dreamtier/providers/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_any_logo/flutter_logo.dart';
@@ -16,6 +17,8 @@ class SignUpScreen extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -43,9 +46,9 @@ class _LoginPageState extends ConsumerState<SignUpScreen> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           TextFormField(
-                            controller: _emailController,
+                            controller: _nameController,
                             decoration: InputDecoration(
-                              hintText: 'Username',
+                              hintText: 'Name',
                               border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       width: 1.7,
@@ -59,9 +62,36 @@ class _LoginPageState extends ConsumerState<SignUpScreen> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please enter username';
-                              } else if (value.length < 2) {
-                                return 'Username should be greater than 1 character';
+                                return 'Please enter your name';
+                              } else if (value.length < 3) {
+                                return 'Name should be greater than 3 character';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
+                            controller: _phoneController,
+                            decoration: InputDecoration(
+                              hintText: 'Phone',
+                              border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1.7,
+                                      color: Color.fromARGB(255, 24, 54, 221)),
+                                  borderRadius: BorderRadius.circular(7)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1.7,
+                                      color: Color.fromARGB(255, 24, 54, 221)),
+                                  borderRadius: BorderRadius.circular(7)),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your phone number';
+                              }
+                              const pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+                              if (!RegExp(pattern).hasMatch(value)) {
+                                return 'Enter valid phone number';
                               }
                               return null;
                             },
@@ -202,15 +232,29 @@ class _LoginPageState extends ConsumerState<SignUpScreen> {
                                 const Color.fromARGB(255, 24, 54, 221)),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            // await ref
-                            //     .read(authProvider.notifier)
-                            //     .signInWithEmailAndPassword(
-                            //       _emailController.text,
-                            //       _passwordController.text,
-                            //     );
-                            MaterialPageRoute(
-                              builder: (ctx) => const HomeScreen(),
-                            );
+                            await ref
+                                .read(authProvider.notifier)
+                                .signUpWithDetails(
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _phoneController.text,
+                                  _nameController.text,
+                                )
+                                .then((value) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (ctx) => const HomeScreen(),
+                                ),
+                              );
+                            }).catchError((e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text((e as FirebaseAuthException)
+                                      .code
+                                      .toString()),
+                                ),
+                              );
+                            });
                           }
                         },
                         child: const Text(

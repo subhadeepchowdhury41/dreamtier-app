@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final Function(String)? onChanged;
+  final String? value;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
 
   const CustomTextField({
     Key? key,
+    this.value,
     required this.label,
     this.onChanged,
     this.controller,
@@ -34,6 +36,7 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
       ),
+      initialValue: value,
       validator: validator,
       onChanged: onChanged,
     );

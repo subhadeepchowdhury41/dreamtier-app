@@ -167,17 +167,19 @@ class _WorkDetailsScreenState extends State<WorkDetailsScreen> {
                                               child: const Text('Cancel')),
                                           TextButton(
                                               onPressed: () {
-                                                _projects.add(Project(
-                                                    name: name,
-                                                    link: link,
-                                                    description: description));
+                                                setState(() {
+                                                  _projects.add(Project(
+                                                      name: name,
+                                                      link: link,
+                                                      description:
+                                                          description));
+                                                });
+
                                                 Navigator.pop(context);
                                               },
                                               child: const Text('Add Project')),
                                         ],
-                                      )).then((value) {
-                                Navigator.pop(context);
-                              });
+                                      ));
                             },
                             child: const Text('Add Project'))
                       ],

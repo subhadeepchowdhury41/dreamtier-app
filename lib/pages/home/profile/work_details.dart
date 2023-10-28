@@ -87,7 +87,99 @@ class _WorkDetailsScreenState extends State<WorkDetailsScreen> {
                           style: TextStyle(fontSize: 18.0),
                         ),
                         TextButton(
-                            onPressed: () {}, child: const Text('Add Project'))
+                            onPressed: () {
+                              String name = '';
+                              String description = '';
+                              String link = '';
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(3.0),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              2,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 16.0),
+                                              const Text(
+                                                'Project Name',
+                                                style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              CustomTextField(
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      name = val;
+                                                    });
+                                                  },
+                                                  label: 'Enter project name'),
+                                              const SizedBox(height: 16.0),
+                                              const Text(
+                                                'Project Description',
+                                                style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              CustomTextField(
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      description = val;
+                                                    });
+                                                  },
+                                                  label:
+                                                      'Enter project description'),
+                                              const SizedBox(
+                                                height: 16,
+                                              ),
+                                              const Text(
+                                                'Project Link',
+                                                style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              CustomTextField(
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      link = val;
+                                                    });
+                                                  },
+                                                  label: 'Add Link'),
+                                              const SizedBox(
+                                                height: 32.0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Cancel')),
+                                          TextButton(
+                                              onPressed: () {
+                                                _projects.add(Project(
+                                                    name: name,
+                                                    link: link,
+                                                    description: description));
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Add Project')),
+                                        ],
+                                      )).then((value) {
+                                Navigator.pop(context);
+                              });
+                            },
+                            child: const Text('Add Project'))
                       ],
                     ),
                     SizedBox(

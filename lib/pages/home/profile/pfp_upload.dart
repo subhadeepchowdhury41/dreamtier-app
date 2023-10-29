@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dreamtier/services/user_services.dart';
 import 'package:dreamtier/utils/file_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +17,15 @@ class PfpUploadScreen extends ConsumerStatefulWidget {
 
 class _PfpUploadScreenState extends ConsumerState<PfpUploadScreen> {
   File? _imageFile;
+  String? _fileRef;
   Future<void> _checkIfExists() async {
     final storage = FirebaseStorage.instance;
-    final ref = storage
-        .ref()
-        .child('profile_pictures/${instance.currentUser!.uid}.jpg');
+    final userRef =
+        await UserServices.fetchUserInfo(instance.currentUser!.uid);
+    if (userRef == null) return;
+    if (userRef['pfp'] == null) return;
+    final ref = storage.ref().child(userRef['pfp']);
     final url = await ref.getDownloadURL();
-    debugPrint(url);
     final file = await fileFromUrl(url);
     if (file == null) return;
     setState(() {
@@ -43,9 +47,12 @@ class _PfpUploadScreenState extends ConsumerState<PfpUploadScreen> {
       loading = true;
     });
     final storage = FirebaseStorage.instance;
-    final ref = storage
-        .ref()
-        .child('profile_pictures/${instance.currentUser!.uid}.jpg');
+    _fileRef =
+        'profile_pictures/${instance.currentUser!.uid}.${file.path.split('.').last}';
+    final ref = storage.ref().child(_fileRef!);
+    await UserServices.updateUser(instance.currentUser!.uid, {
+      'pfp': _fileRef,
+    });
     final uploadTask = ref.putFile(file);
     await uploadTask.whenComplete(() {
       debugPrint('Image uploaded to Firebase Cloud Storage');
@@ -77,9 +84,10 @@ class _PfpUploadScreenState extends ConsumerState<PfpUploadScreen> {
       loading = true;
     });
     final storage = FirebaseStorage.instance;
-    final ref = storage
-        .ref()
-        .child('profile_pictures/${instance.currentUser!.uid}.jpg');
+    final ref = storage.ref().child(_fileRef!);
+    await UserServices.updateUser(instance.currentUser!.uid, {
+      'pfp': FieldValue.delete(),
+    });
     final uploadTask = ref.delete();
     await uploadTask.whenComplete(() {
       debugPrint('Image deleted from Firebase Cloud Storage');

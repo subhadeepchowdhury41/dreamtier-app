@@ -1,3 +1,4 @@
+import 'package:dreamtier/pages/home/profile/details/profile_view.dart';
 import 'package:dreamtier/providers/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,11 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Text('My Courses'),
             ),
           ),
-          Container(
-            child: const Center(
-              child: Text('Profile'),
-            ),
-          ),
+          const ProfileViewScreen()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

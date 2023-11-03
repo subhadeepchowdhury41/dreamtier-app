@@ -1,3 +1,4 @@
+import 'package:dreamtier/pages/dreamtier_overview.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +14,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: PageView(
+        children: [
+          DreamtierOverview(),
+          DreamtierOverview(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,

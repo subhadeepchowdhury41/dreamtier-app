@@ -1,3 +1,4 @@
+import 'package:dreamtier/pages/home/profile/interests_selector.dart';
 import 'package:flutter/material.dart';
 
 Widget interestsSection(BuildContext context, List<String?> interests) {
@@ -33,7 +34,12 @@ Widget interestsSection(BuildContext context, List<String?> interests) {
             interests.isEmpty
                 ? InkWell(
                     borderRadius: BorderRadius.circular(13),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const InterestsSelector()));
+                    },
                     child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 7, vertical: 2),

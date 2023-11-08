@@ -1,3 +1,4 @@
+import 'package:dreamtier/pages/dreamtier_overview.dart';
 import 'package:dreamtier/pages/home/profile/details/profile_view.dart';
 import 'package:dreamtier/providers/home_provider.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Text('Home'),
             ),
           ),
-          Container(
-            child: const Center(
-              child: Text('Live'),
-            ),
-          ),
+          Container(child: DreamtierOverview()),
           Container(
             child: const Center(
               child: Text('My Courses'),

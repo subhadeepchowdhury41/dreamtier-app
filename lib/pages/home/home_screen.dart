@@ -1,5 +1,7 @@
 import 'package:dreamtier/pages/dreamtier_overview.dart';
+import 'package:dreamtier/pages/home/courses/courses_list_screen.dart';
 import 'package:dreamtier/pages/home/profile/details/profile_view.dart';
+import 'package:dreamtier/providers/courses_provider.dart';
 import 'package:dreamtier/providers/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,8 +14,13 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+
+  Future<void> _init() async {
+    await ref.read(courseProvider.notifier).fetchCourses();
+  }
   @override
   void initState() {
+    _init();
     super.initState();
   }
 
@@ -29,19 +36,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           });
         },
         controller: _pageController,
-        children: [
-          Container(
-            child: const Center(
-              child: Text('Home'),
-            ),
+        children: const [
+          Center(
+            child: Text('Home'),
           ),
-          Container(child: DreamtierOverview()),
-          Container(
-            child: const Center(
-              child: Text('My Courses'),
-            ),
-          ),
-          const ProfileViewScreen()
+          DreamtierOverview(),
+          CoursesListScreen(),
+          ProfileViewScreen()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
